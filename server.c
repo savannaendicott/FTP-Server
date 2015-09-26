@@ -22,7 +22,7 @@ int main() {
 												{ ls, get, put, cd, mkdr, err };
 
 	// Connect server_socket to a socket.
-	server_socket = Socket(AF_INET, SOCK_STREAM, 0;)
+	server_socket = Socket(AF_INET, SOCK_STREAM, 0);
 
 	memset(&serv_addr, '0', sizeof(serv_addr));
 
