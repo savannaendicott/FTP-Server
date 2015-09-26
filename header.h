@@ -24,6 +24,7 @@
 #define BUFFER 1024
 #define PORT 5000
 #define MAXPENDING 3
+#define SERVER_IP "127.0.0.1"
 
 void ls  (char* command, int client_socket);
 void get (char* command, int client_socket);
@@ -31,3 +32,11 @@ void put (char* command, int client_socket);
 void cd  (char* command, int client_socket);
 void mkdr(char* command, int client_socket);
 void err (char* command, int client_socket);
+
+int  Socket(int, int, int);
+void Bind(int, const struct sockaddr *, socklen_t);
+void Listen(int, int);
+int  Accept(int, struct sockaddr *restrict, socklen_t *restrict);
+void Connect(int, const struct sockaddr *, socklen_t);
+int  Send(int, const void *, size_t, int);
+int  Recv(int, void *, size_t, int);

@@ -22,32 +22,21 @@ int main() {
 												{ ls, get, put, cd, mkdr, err };
 
 	// Connect server_socket to a socket.
-	if ((server_socket = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-		printf("socket error\n");
-		return 1;
-	}
+	server_socket = Socket(AF_INET, SOCK_STREAM, 0;)
 
 	memset(&serv_addr, '0', sizeof(serv_addr));
-	memset(recvBuff, '0', sizeof(recvBuff));
 
 	serv_addr.sin_family = AF_INET;    
 	serv_addr.sin_addr.s_addr = htonl(INADDR_ANY); 
 	serv_addr.sin_port = htons(PORT);
 
-	if (bind(server_socket, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
-		printf("bind error\n");
-		return 1;
-	}
+	Bind(server_socket, (struct sockaddr*)&serv_addr, sizeof(serv_addr));
 
-	if (listen(server_socket, MAXPENDING) < 0) {
-		printf("listen error\n");
-		return 1;
-	}
+	Listen(server_socket, MAXPENDING);
+
 printf("waiting for connection\n");
-	if ((client_socket = accept(server_socket, (struct sockaddr*)NULL ,NULL)) < 0) {
-		printf("accept error\n");
-		return 1;
-	}
+
+	client_socket = Accept(server_socket, (struct sockaddr*)NULL ,NULL);
 
 
 	int bytes_received = 0;
