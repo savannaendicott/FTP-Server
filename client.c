@@ -1,53 +1,44 @@
-#include "header.h"
+#include "common.h"
 
-int main(void)
-{
-  printf("I AM THE CLIENT\n");
-  int sockfd = 0;
-  char recvBuff[1024];
-  char sendBuff[1024];
-  struct sockaddr_in serv_addr;
- 
-  memset(recvBuff, '0' ,sizeof(recvBuff));
-  if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-    printf("\n Error : Could not create socket \n");
-    return 1;
-  }
- 
-  serv_addr.sin_family = AF_INET;
-  serv_addr.sin_port = htons(5000);
-  serv_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
- 
-  if(connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
-    printf("\n Error : Connect Failed \n");
-    return 1;
-  }
- 
-  pid_t pid = fork();
-  if (pid) {
-    while (strncmp(recvBuff, "exit", 4) != 0) {
-      // why do i have to have +1 to the sizeof()?????????
-      if(recv(sockfd, recvBuff, sizeof(recvBuff) +1, 0) < 0)
-        printf("Error: Receive\nErrno: %d\n", errno);
-      recvBuff[1023] = 0;
+int main(void) {
+    // Initialize socket_fd and the buffers.
+    int socket_fd = 0;
+    char recvBuff[BUFFER+1], sendBuff[BUFFER+1];
 
-      printf("Server: %s", recvBuff);
-    }
+    // Create and initialize serv_addr.
+    struct sockaddr_in serv_addr;
+    memset(recvBuff, '0', sizeof(recvBuff));
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = htons(PORT);
+    serv_addr.sin_addr.s_addr = inet_addr(SERVER_IP);
     
-    wait(&pid);
-    close(sockfd);
-    
-  } else {
-    while (strncmp(sendBuff, "exit", 4) != 0) {
-      fputs("(Client) Enter a message: ", stdout);
-      fgets(sendBuff, sizeof(sendBuff), stdin);
-      
-      if(send(sockfd, sendBuff, sizeof(sendBuff), 0) < 0)
-        printf("Error: Send\nErrno: %d\n", errno);
+    // Connect to a socket.
+    socket_fd = Socket(AF_INET, SOCK_STREAM, 0);
+
+    // Connect to other client.
+    Connect(socket_fd, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+
+    pid_t pid = fork();
+    if (pid) { // Handle incoming messages.
+        while (strncmp(recvBuff, ":exit", 5) != 0) {
+            Recv(socket_fd, recvBuff, sizeof(recvBuff), 0);
+            recvBuff[BUFFER] = '\n';
+
+            printf("Server: %s", recvBuff);
+        }
+
+        wait(&pid);
+        close(socket_fd);
+
+    } else { // Handle outgoing messages.
+        while (strncmp(sendBuff, ":exit", 5) != 0) {
+            fputs("(Client) Enter a message: ", stdout);
+            fgets(sendBuff, sizeof(sendBuff), stdin);
+
+            Send(socket_fd, sendBuff, sizeof(sendBuff), 0);
+        }
+
+        close(socket_fd);
+        exit(0);
     }
-    close(sockfd);
-    exit(0);
-  }
-  
-  return 0;
 }
