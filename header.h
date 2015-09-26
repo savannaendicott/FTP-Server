@@ -24,7 +24,7 @@
 #define BUFFER 1024
 #define PORT 5000
 #define MAXPENDING 3
-#define SERVER_IP "127.0.0.1"
+#define SERVER_IP "159.203.82.155"
 
 void ls  (char* command, int client_socket);
 void get (char* command, int client_socket);

@@ -18,9 +18,10 @@ int main(void) {
     // Connect to other client.
     Connect(socket_fd, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 
+/*
     pid_t pid = fork();
     if (pid) { // Handle incoming messages.
-        while (strncmp(recvBuff, ":exit", 5) != 0) {
+        while (strncmp(recvBuff, "exit", 4) != 0) {
             Recv(socket_fd, recvBuff, sizeof(recvBuff), 0);
             recvBuff[BUFFER] = '\n';
 
@@ -31,7 +32,7 @@ int main(void) {
         close(socket_fd);
 
     } else { // Handle outgoing messages.
-        while (strncmp(sendBuff, ":exit", 5) != 0) {
+        while (strncmp(sendBuff, "exit", 4) != 0) {
             fputs("(Client) Enter a message: ", stdout);
             fgets(sendBuff, sizeof(sendBuff), stdin);
 
@@ -40,5 +41,14 @@ int main(void) {
 
         close(socket_fd);
         exit(0);
+    }
+*/
+    while (strncmp(sendBuff, "exit", 4) != 0) {
+        fputs("(Client) Enter a message: ", stdout);
+        fgets(sendBuff, sizeof(sendBuff), stdin);
+
+        printf("strlen: %d\n", strlen(sendBuff));
+
+        Send(socket_fd, sendBuff, sizeof(sendBuff), 0);
     }
 }
