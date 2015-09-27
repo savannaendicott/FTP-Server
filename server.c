@@ -51,7 +51,7 @@ printf("waiting for message\n");
 
 printf("grabbing command out of message\n");
 		end_pos = strstr(recvBuff, end);
-		if (end_pos == NULL) continue; //printf("Error with end_pos\n");
+		if (end_pos == NULL) printf("Error with end_pos\n");
 		index = end_pos - recvBuff;
 
 		char command[index];
