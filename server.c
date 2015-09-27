@@ -65,7 +65,7 @@ printf("handle request\n");
 
 		for (int i = 0; i < 6; ++i)
 			if (strncmp(command, request[i], 5) == 0 || i == 5)
-				request_handler[i](recvBuff+index+6, client_socket);
+				{ request_handler[i](recvBuff+index+6, client_socket); break; }
 printf("request handled\n");
 	}
 
