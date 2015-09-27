@@ -48,9 +48,8 @@ printf("waiting for message\n");
 		}
 		bytes_received = 0;
 		recvBuff[BUFFER] = '\n';
-printf("recvBuff: '%s'\n", recvBuff);
-printf("grabbing command out of message\n");
 
+printf("grabbing command out of message\n");
 		end_pos = strstr(recvBuff, end);
 		if (end_pos == NULL) printf("Error with end_pos\n");
 		index = end_pos - recvBuff;
@@ -61,7 +60,7 @@ printf("grabbing command out of message\n");
 
 printf("Command: %s\n", command);
 printf("checking for exit command\n");
-		if (strncmp(command, "exit", 4) == 0) break;
+		if (strncmp(command, ":exit", 5) == 0) break;
 printf("handle request\n");
 		// Handle request
 
