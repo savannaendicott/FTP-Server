@@ -1,0 +1,4 @@
+A simple program where messages are exchanged between
+the client and the server.
+
+For all intents and purposes the client code given here is not to be used at the moment. Other members of the group are creating a client in android in a different repository. client.c only exists here as a carry over file from a previous project used as a template that will likely become functional at some point. At the moment though it is not used.
