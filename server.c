@@ -94,12 +94,20 @@ void ls  (char* command, int client_socket) {
 		printf("send error\n");
 		exit(1);
 	}
-	if (sendfile(client_socket, filehandle, NULL, size) < 0) {
-		printf("sendfile error\n");
-		exit(1);
+//	if (sendfile(client_socket, filehandle, NULL, size) < 0) {
+//		printf("sendfile error\n");
+//		exit(1);
+//	}
+	int count = 0;
+	char buffer[1025];
+	FILE *fp = fdopen(filehandle, "r");
+	while(count < size) {
+		fgets(buffer, sizeof(buffer), fp);
+		count += send(client_socket, buffer, 1025, 0);
 	}
-	char *response;
-	recv(client_socket, response, 1024, 0);
+
+//	char *response;
+//	recv(client_socket, response, 1025, 0);
 
 	// Clean up ls.txt
 	close(filehandle);
