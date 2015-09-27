@@ -54,9 +54,8 @@ printf("grabbing command out of message\n");
 		if (end_pos == NULL) printf("Error with end_pos\n");
 		index = end_pos - recvBuff;
 
-		char command[index+1];
+		char command[index];
 		strncpy(command, recvBuff, index);
-		command[index] = '\n';
 
 printf("Command: %s\n", command);
 printf("checking for exit command\n");
