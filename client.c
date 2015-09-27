@@ -53,6 +53,7 @@ void handle_response(int socket_fd, char *command, char *parameter) {
 }
 
 void ls_r(char *parameter, int socket_fd) {
+    printf("in ls response\n");
     int file_size = 0;
     int read = 0;
     int read_total = 0;
@@ -74,23 +75,23 @@ void ls_r(char *parameter, int socket_fd) {
 }
 
 void get_r(char *parameter, int socket_fd) {
-
+    printf("in get response\n");
 }
 
 void put_r(char *parameter, int socket_fd) {
-
+    printf("in put response\n");
 }
 
 void cd_r(char *parameter, int socket_fd) {
-
+    printf("in cd response\n");
 }
 
 void mkdr_r(char *parameter, int socket_fd) {
-
+    printf("in mkdir response\n");
 }
 
 void err_r(char *parameter, int socket_fd) {
-
+    printf("in err response\n");
 }
 
 void parseSendBuffer(char *sendBuff, char **cmd, char **message, char **param) {
