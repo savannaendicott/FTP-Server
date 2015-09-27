@@ -63,9 +63,14 @@ printf("checking for exit command\n");
 printf("handle request\n");
 		// Handle request
 
+		pid_t pid = fork();
+		if (pid) wait(&pid);
+		else {
 		for (int i = 0; i < 6; ++i)
 			if (strncmp(command, request[i], 5) == 0 || i == 5)
 				{ request_handler[i](recvBuff+index+6, client_socket); break; }
+		exit(0);
+		}
 printf("request handled\n");
 	}
 
