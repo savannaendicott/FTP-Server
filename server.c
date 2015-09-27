@@ -80,7 +80,7 @@ printf("request handled\n");
 // Stretch goal: allow client to ls directories other than current
 // 		e.g. ls test/so_much_bacon/
 void ls  (char* command, int client_socket) {
-	printf("in ls\n");
+	printf("--in ls\n");
 	// call ls and send the result to "ls.txt" and open it
 	system("ls > ls.txt");
 	int filehandle = open("ls.txt", O_RDONLY);
@@ -107,6 +107,7 @@ void ls  (char* command, int client_socket) {
 
 
 void get (char* command, int client_socket) {
+	printf("--in get\n");
 	// Get the path out of command.
 	char *end_pos = strstr(command, "&endm;\n");
 	int length = end_pos - command;
@@ -151,23 +152,23 @@ void get (char* command, int client_socket) {
 }
 
 void put (char* command, int client_socket) {
-
+	printf("--in put\n");
 }
 
 
 void cd  (char* command, int client_socket) {
-
+    printf("--in cd\n");
 }
 
 
 void mkdr(char* command, int client_socket) {
-
+    printf("--in mkdir\n");
 }
 
 // Tell the client that their command was not valid.
 void err (char* command, int client_socket) {
 // create a file "err.txt" and store the error message in it.
-
+	printf("--in err\n");
 	FILE *fp = fopen("err.txt", "w");
 
 	char cmd[BUFFER+1];
