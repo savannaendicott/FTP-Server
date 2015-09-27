@@ -98,6 +98,8 @@ void ls  (char* command, int client_socket) {
 		printf("sendfile error\n");
 		exit(1);
 	}
+	char *response;
+	recv(client_socket, response, 1024, 0);
 
 	// Clean up ls.txt
 	close(filehandle);
