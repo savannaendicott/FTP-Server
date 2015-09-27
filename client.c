@@ -55,18 +55,21 @@ void handle_response(int socket_fd, char *command, char *parameter) {
 void ls_r(char *parameter, int socket_fd) {
     printf("in ls response\n");
     int file_size = 0;
-    int read = 0;
-    int read_total = 0;
+    int count = 0;
+    int count_total = 0;
 
     Recv(socket_fd, &file_size, sizeof(int), 0);
-
+    
     char buffer[file_size+1];
     char temp_buff[1025];
 
+    int filehandle = open("ls.txt", O_WRONLY);
+
     while (1) {
-        read = Recv(socket_fd, temp_buff, 1025, 0);
-        if (read == 0) break;
-        read_total += read;
+        if ((count = recv(socket_fd, temp_buff, 1025, 0)) < 0)
+            printf("recv error: %d %s\n", errno, strerror(errno));
+        if (count == 0) break;
+        count_total += count;
         
         strcat(buffer, temp_buff);
     }
@@ -96,13 +99,20 @@ void err_r(char *parameter, int socket_fd) {
 
 void parseSendBuffer(char *sendBuff, char **cmd, char **message, char **param) {
     int size_of_message = 0;
-    char *command = strtok(sendBuff, " ");
+    char command[12] = "            ";
+    char *temp = strtok(sendBuff, " ");
+
+    for (int i = 0; i < 5 && temp[i] != '\n'; ++i)
+        command[i] = temp[i];
+    strncpy(command+5, "&endm;\n", 7);
+
+printf("command: %s", command);
+
     char *parameter = strtok(NULL, " ");
     if (parameter == NULL) parameter = "";
 
     char stringToSend[1025];
     strncpy(stringToSend, command, strlen(command));
-    strcat(stringToSend, "&endm;\n");
     
     if (strlen(parameter) > 0) {
         strcat(stringToSend, parameter);
