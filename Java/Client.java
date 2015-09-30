@@ -58,12 +58,8 @@ class Client
 					dos.flush();
 					System.out.println("Sent the message: " + message);
 
-
 					System.out.println("Waiting for response");
-					while(dis.available() <= 0)
-					{
-
-					}
+					while(dis.available() <= 0) { }
 
 					System.out.println("\nMessage:");
 
@@ -74,12 +70,8 @@ class Client
 					}
 
 					System.out.println(response + "\n\n");
-
 	            }
-	            catch(Exception e)
-	            {
-	                System.out.println("Error:" + e.toString());
-	            }
+	            catch(Exception e) { System.out.println("Error:" + e.toString()); }
 	    //     }
 	    // }).start();
 	}
@@ -95,9 +87,6 @@ class Client
 			dis.close();
 			dos.close();
 		}
-		catch(Exception e)
-		{
-			System.out.println("Error:" + e.toString());
-		}
+		catch(Exception e) { System.out.println("Error:" + e.toString()); }
 	}
 }
