@@ -9,32 +9,44 @@ s.listen(5)
 print("Listening on port 5000")
 c, addr = s.accept()
 
-while(true):
-    message = str(c.recv(1024))
-    message_parts = message.split()
-    command = message_parts[0].strip()[2:]
+def start_server():
+    while True:
+        message = str(c.recv(1024))[2:] # First 2 chars are stream headers
+        command = ""
+        parameter = ""
+        if " " in message:
+            parts = message.split(" ")
+            command = parts[0]
+            parameter = parts[1]
+        else:
+            command = message
 
-    print len(command)
+        if(len(command) > 0):
+            print(message)
+            handle_command(command, parameter)
 
-    print(command == "ls")
-    if len(message_parts) > 1:
-        parameter = message_parts[1]
+def handle_command(command, parameter):
 
     if command == "ls":
         proc = subprocess.Popen(["ls"], stdout=subprocess.PIPE, shell=True)
         (out, err) = proc.communicate()
-        print(out)
         c.send(out)
 
 
     elif command == "cd":
         if os.path.exists(parameter):
             os.chdir(parameter)
+            c.send("ok")
+        else:
+            c.send("nok")
 
 
     elif command == "mkdir":
         if not os.path.exists(parameter):
             os.makedirs(parameter)
+            c.send("ok")
+        else:
+            c.send("nok")
 
 
     elif command == "get":
@@ -64,6 +76,7 @@ while(true):
     elif command == "exit":
         s.close()
 
-
     else:
         c.send("command: '%s' not recognized" % command)
+
+start_server()

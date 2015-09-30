@@ -38,18 +38,19 @@ class Client
 		System.out.println("Obtained dis and dos");
 
 		sendAndRecieve("ls", dos, dis);
-	    //sendAndRecieve("cd foldername");
-	    //sendAndRecieve("mkdir newFolder");
+	    sendAndRecieve("mkdir newFolder", dos, dis);
+	    sendAndRecieve("cd newFolder", dos, dis);
+		closeSocket(dos, dis);
 	}
 
 	public static void sendAndRecieve(String message, DataOutputStream dos, DataInputStream dis)
 	{
-	    final String messageToSend = message;
-
-	    new Thread(new Runnable()
-	    {
-	        public void run()
-	        {
+	    // final String messageToSend = message;
+		//
+	    // new Thread(new Runnable()
+	    // {
+	    //     public void run()
+	    //     {
 	            try
 	            {
 					// Write to the socket
@@ -57,29 +58,46 @@ class Client
 					dos.flush();
 					System.out.println("Sent the message: " + message);
 
-					String message = "";
+
+					System.out.println("Waiting for response");
 					while(dis.available() <= 0)
 					{
-						System.out.print("#");
+
 					}
 
-					System.out.println("\n\nMessage:");
-					
+					System.out.println("\nMessage:");
+
+					String response = "";
 					while(dis.available() > 0)
 					{
-						message += (char) dis.readByte();
+						response += (char) dis.readByte();
 					}
 
-					System.out.println(message);
+					System.out.println(response + "\n\n");
 
-					dis.close();
-					dos.close();
 	            }
 	            catch(Exception e)
 	            {
 	                System.out.println("Error:" + e.toString());
 	            }
-	        }
-	    }).start();
+	    //     }
+	    // }).start();
+	}
+
+	public static void closeSocket(DataOutputStream dos, DataInputStream dis)
+	{
+		try
+		{
+			// Write to the socket
+			dos.writeUTF("exit");
+			dos.flush();
+
+			dis.close();
+			dos.close();
+		}
+		catch(Exception e)
+		{
+			System.out.println("Error:" + e.toString());
+		}
 	}
 }
