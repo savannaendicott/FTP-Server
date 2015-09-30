@@ -9,7 +9,7 @@ s.listen(5)
 print("Listening on port 5000")
 c, addr = s.accept()
 
-def recieve_reply():
+while(true):
     message = str(c.recv(1024))
     message_parts = message.split()
     command = message_parts[0].strip()[2:]
@@ -67,6 +67,3 @@ def recieve_reply():
 
     else:
         c.send("command: '%s' not recognized" % command)
-
-
-recieve_reply()
