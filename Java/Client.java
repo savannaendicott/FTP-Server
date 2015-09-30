@@ -57,18 +57,20 @@ class Client
 					dos.flush();
 					System.out.println("Sent the message: " + message);
 
-					ArrayList<Byte> b = new ArrayList<Byte>();
+					String message = "";
 					while(dis.available() <= 0)
 					{
-						System.out.println("Waiting for response");
+						System.out.print("#");
 					}
 
+					System.out.println("\n\nMessage:");
+					
 					while(dis.available() > 0)
 					{
-						b.add(dis.readByte());
+						message += (char) dis.readByte();
 					}
-					
-					System.out.println(b.toString());
+
+					System.out.println(message);
 
 					dis.close();
 					dos.close();
