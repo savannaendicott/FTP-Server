@@ -51,11 +51,15 @@ def handle_command(command, parameter):
 
     elif command == "get":
         size = os.path.getsize(parameter)
+<<<<<<< HEAD
         c.send(str(size))
+=======
+        
+>>>>>>> 27e640705197886953d68f7e0f43ef1d67e4e483
 
         with open(parameter,'rb') as f:
             c.sendall(f.read())
-
+        print "sent"
 
     elif command == "put":
         chunks = []
